@@ -35,11 +35,13 @@ namespace StarBank.Display
             Console.WriteLine(initialMenu);
             var option = Console.ReadLine();
 
-            if (option != "1" && option != "2" && option != "3")
+            List<string> options = [ "1", "2", "3" ];
+
+            if (!options.Contains(option))
             {
                 Message.Text("Opção invalida, tente novamente!");
                 option = null;
-                InitialMenu();
+                LoggedMenu();
             }
 
             int selected = Convert.ToInt32(option);
@@ -51,7 +53,7 @@ namespace StarBank.Display
                     clientService.CreateClient();
                     break;
                 case 2:
-                    //this.Client.Login();
+                    clientService.Login();
                     break;
                 case 3:
                     Message.Text("Saindo do Star Bank, até a próxima!");
@@ -73,9 +75,7 @@ namespace StarBank.Display
 *    1 - Ver o valor total na conta.               *
 *    2 - Depositar valor.                          *
 *    3 - Sacar valor                               *
-*    4 - Ver meu limite.                           *
-*    5 - Solicitar mais limite.                    *
-*    6 - Deslogar da conta.                        *                 
+*    4 - Deslogar da conta.                        *                 
 *                                                  *
 *   * Digite a opção selecionada abaixo.           *
 *                                                  *
@@ -85,7 +85,7 @@ namespace StarBank.Display
             Console.WriteLine(LoggedMenuText);
             var option = Console.ReadLine();
 
-            List<string> options = [ "1", "2", "3", "4", "5", "6" ];
+            List<string> options = [ "1", "2", "3", "4" ];
 
             if (!options.Contains(option))
             {
@@ -106,17 +106,13 @@ namespace StarBank.Display
                     clientService.Deposit(idLoggedUser);
                     break;
                 case 3:
+                    clientService.WithDraw(idLoggedUser);
                     break;
                 case 4:
-                    clientService.SeeAllLimit(idLoggedUser);
-                    break;
-                case 5:
-                    break;
-                case 6:
                     Program.LoggedUser = 0;
                     Message.Text("Deslogando da sua conta, volte sempre!");
                     InitialMenu();
-                    break;
+                    break;    
                 default:
                     Message.Text("Aconteceu um erro interno...");
                     break;
