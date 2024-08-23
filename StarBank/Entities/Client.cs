@@ -14,7 +14,6 @@ namespace StarBank.Entities
 {
     public class Client : User, IClientActions
     {
-        public decimal CreditLimit { get; set; }
         public bool Active { get; set; }
 
         public Client()
@@ -26,10 +25,9 @@ namespace StarBank.Entities
             this.Name = name;
             this.Age = age;
             this.StatusClient = StatusClientEnum.POSITIVE;
-            this.CreditLimit = 50;
             this.Password = password;
             this.Active = true;
-            this.Balance = 0.0M;
+            this.Balance = 0.0d;
             this.CreatedAt = DateTime.UtcNow;
         }
 

@@ -107,37 +107,37 @@ namespace StarBank.Services
         public void SeeTotalValue(int id)
         {
             Client client = FindById(id);
-            Message.Text($"Seu saldo é de: {client.Balance}!");
+            Message.Text($"Seu saldo é de: R${client.Balance:F2}!");
             Menu.LoggedMenu();
         }
 
         public void Deposit(int id)
         {
-            Client client = this.FindById(id);
+            Client client = FindById(id);
 
             Message.Text("Quanto você gostaria de depositar?");
-            decimal value = Convert.ToDecimal(Console.ReadLine());
+            double value = Convert.ToDouble(Console.ReadLine());
 
             client.Balance += value;
 
-            Message.Text($"Seu saldo é de: {client.Balance}!");
+            Message.Text($"Seu saldo é de: R${client.Balance:F2}!");
 
             Menu.LoggedMenu();
         }
 
         public void WithDraw(int id) 
         {
-            Client client = this.FindById(id);
+            Client client = FindById(id);
             
             Message.Text("Quanto você gostaria de sacar?");
-            var value = Convert.ToDecimal(Console.ReadLine());
+            var value = Convert.ToDouble(Console.ReadLine());
             if (value <= client.Balance)
             {
                 client.Balance -= value;
-                Message.Text($"Você sacou R${value}, agora você tem R${client.Balance} em sua conta!");
+                Message.Text($"Você sacou R${value:F2}, agora você tem R${client.Balance:F2} em sua conta!");
             }
             else {
-                Message.Text($"Você tem apenas R${client.Balance} em sua conta, tente outro valor!");
+                Message.Text($"Você tem apenas R${client.Balance:F2} em sua conta, tente outro valor!");
             }
             Menu.LoggedMenu();
         }

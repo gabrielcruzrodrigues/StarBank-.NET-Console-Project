@@ -15,6 +15,6 @@ namespace StarBank.Entities
         public DateTime CreatedAt { get; set; }
         public StatusClientEnum StatusClient { get; set; }
         public string? Password { get; set; }
-        public decimal Balance { get; set; }
+        public double Balance { get; set; }
     }
 }
