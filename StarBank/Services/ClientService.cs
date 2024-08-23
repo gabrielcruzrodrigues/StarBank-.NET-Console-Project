@@ -94,6 +94,36 @@ namespace StarBank.Services
             }
         }
 
+        public void SeeTotalValue(int id)
+        {
+            Client client = this.findById(id);
+            this.Message.Text($"Seu saldo é de: {client.Balance}!");
+            Menu menu = new();
+            menu.LoggedMenu();
+        }
+
+        public void Deposit(int id)
+        {
+            Client client = this.findById(id);
+
+            this.Message.Text("Quanto você gostaria de depositar?");
+            decimal value = Convert.ToDecimal(Console.ReadLine());
+
+            client.Balance += value;
+
+            this.Message.Text($"Seu saldo é de: {client.Balance}!");
+
+            Menu menu = new();
+            menu.LoggedMenu();
+        }
+
+        public void SeeAllLimit(int id)
+        {
+            Client client = this.findById(id);
+            this.Message.Text($"O seu limite é de: {client.CreditLimit}!");
+            Menu menu = new();
+            menu.LoggedMenu();
+        }
 
         private bool Verify(string input, int type)
         {

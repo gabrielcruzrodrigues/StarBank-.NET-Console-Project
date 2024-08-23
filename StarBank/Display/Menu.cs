@@ -69,8 +69,7 @@ namespace StarBank.Display
         }
 
         public void LoggedMenu()
-        {
-
+        { 
             string LoggedMenu = @"
 ****************************************************
 *                    Star Bank                     *        
@@ -81,6 +80,7 @@ namespace StarBank.Display
 *    3 - Sacar valor                               *
 *    4 - Ver meu limite.                           *
 *    5 - Solicitar mais limite.                    *
+*    6 - Deslogar da conta.                        *                 
 *                                                  *
 *   * Digite a opção selecionada abaixo.           *
 *                                                  *
@@ -90,39 +90,37 @@ namespace StarBank.Display
             Console.WriteLine(LoggedMenu);
             var option = Console.ReadLine();
 
-            if (option != "1" && option != "2" && option != "3" && option != "4" && option != "5")
+            List<string> options = [ "1", "2", "3", "4", "5", "6" ];
+
+            if (!options.Contains(option))
             {
                 this.Message.Text("Opção invalida, tente novamente!");
                 option = null;
                 this.LoggedMenu();
             }
-
             int selected = Convert.ToInt32(option);
+            int idLoggedUser = Program.LoggedUser;
 
             switch (selected)
             {
                 case 1:
-                    Client? client = this.ClientService.findById(Program.LoggedUser);
-                    if (client != null)
-                    {
-                        this.Message.Text($"Seu saldo é de: {client.Balance}!");
-                        this.LoggedMenu();
-                    } 
-                    else
-                    {
-                        this.Message.Text("Ocorreu um erro ao tentar acessar os dados do usuário logado.");
-                    }
+                    this.ClientService.SeeTotalValue(idLoggedUser);
                     break;
                 case 2:
-                    //this.Client.Login();
+                    this.ClientService.Deposit(idLoggedUser);
                     break;
                 case 3:
-                    this.Message.Text("Saindo do Star Bank, até a próxima!");
-                    Environment.Exit(0);
                     break;
                 case 4:
+                    this.ClientService.SeeAllLimit(idLoggedUser);
                     break;
                 case 5:
+                    break;
+                case 6:
+                    Program.LoggedUser = 0;
+                    this.Message.Text("Deslogando da sua conta, volte sempre!");
+                    Menu menu = new();
+                    menu.InitialMenu();
                     break;
                 default:
                     this.Message.Text("Aconteceu um erro interno...");

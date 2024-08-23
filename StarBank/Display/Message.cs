@@ -10,9 +10,9 @@ namespace StarBank.Display
     {
         public void Text(string message)
         {
-            Console.WriteLine("=======================================================");
+            Console.WriteLine("-------------------------------------------------------");
             Console.WriteLine("Sistema: " + message);
-            Console.WriteLine("=======================================================");
+            Console.WriteLine("-------------------------------------------------------");
         }
     }
 }
