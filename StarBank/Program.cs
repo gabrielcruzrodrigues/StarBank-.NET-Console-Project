@@ -7,6 +7,7 @@ namespace StarBank
     {
         //In memory database;
         public static List<User> Users = new List<User>();
+        public static int LoggedUser;
 
         static void Main(string[] args)
         {

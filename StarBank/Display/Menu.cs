@@ -70,8 +70,64 @@ namespace StarBank.Display
 
         public void LoggedMenu()
         {
-            Console.WriteLine("Usuário logado");
+
+            string LoggedMenu = @"
+****************************************************
+*                    Star Bank                     *        
+*          No que podemos te ajudar hoje?          *                 
+*                                                  *
+*    1 - Ver o valor total na conta.               *
+*    2 - Depositar valor.                          *
+*    3 - Sacar valor                               *
+*    4 - Ver meu limite.                           *
+*    5 - Solicitar mais limite.                    *
+*                                                  *
+*   * Digite a opção selecionada abaixo.           *
+*                                                  *
+****************************************************
+            ";
+
+            Console.WriteLine(LoggedMenu);
             var option = Console.ReadLine();
+
+            if (option != "1" && option != "2" && option != "3" && option != "4" && option != "5")
+            {
+                this.Message.Text("Opção invalida, tente novamente!");
+                option = null;
+                this.LoggedMenu();
+            }
+
+            int selected = Convert.ToInt32(option);
+
+            switch (selected)
+            {
+                case 1:
+                    Client? client = this.ClientService.findById(Program.LoggedUser);
+                    if (client != null)
+                    {
+                        this.Message.Text($"Seu saldo é de: {client.Balance}!");
+                        this.LoggedMenu();
+                    } 
+                    else
+                    {
+                        this.Message.Text("Ocorreu um erro ao tentar acessar os dados do usuário logado.");
+                    }
+                    break;
+                case 2:
+                    //this.Client.Login();
+                    break;
+                case 3:
+                    this.Message.Text("Saindo do Star Bank, até a próxima!");
+                    Environment.Exit(0);
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    this.Message.Text("Aconteceu um erro interno...");
+                    break;
+            }
         }
     }
 }

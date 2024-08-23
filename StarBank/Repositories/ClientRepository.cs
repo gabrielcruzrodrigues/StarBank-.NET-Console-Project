@@ -17,6 +17,7 @@ namespace StarBank.Repositories
             {
                 Program.Users.Add(client);
                 this.Message.Text("Usuário salvo com sucesso!");
+                Program.LoggedUser = client.Id;
                 Menu menu = new();
                 menu.LoggedMenu();
             } 

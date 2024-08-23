@@ -45,7 +45,8 @@ namespace StarBank.Entities
 
         public void SeeTotalValue()
         {
-            throw new NotImplementedException();
+            Message message = new();
+            message.Text($"O saldo total é de: {this.Balance:2F}!");
         }
     }
 }

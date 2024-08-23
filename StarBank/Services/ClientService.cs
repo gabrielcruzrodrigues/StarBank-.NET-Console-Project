@@ -77,6 +77,23 @@ namespace StarBank.Services
             this.ClientRepository.Create(newClient);
         }
 
+        public Client findById(int id)
+        {
+            Client client = (Client) Program.Users.Where(user => user.Id == id).First();
+            if (client == null)
+            {
+                Menu menu = new();
+                Message message = new();
+                message.Text("Ocorreu um erro ao buscar o usuário por Id.");
+                menu.LoggedMenu();
+                return null;
+            } 
+            else
+            {
+                return client;
+            }
+        }
+
 
         private bool Verify(string input, int type)
         {
