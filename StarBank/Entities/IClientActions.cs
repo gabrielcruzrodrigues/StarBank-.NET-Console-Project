@@ -8,8 +8,6 @@ namespace StarBank.Entities
 {
     public interface IClientActions
     {
-        public void AddValue(decimal value);
-        public void RemoveValue(decimal value);
         public void SeeTotalValue();
     }
 }

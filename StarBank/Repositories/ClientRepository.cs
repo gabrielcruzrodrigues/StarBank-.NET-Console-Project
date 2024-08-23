@@ -12,14 +12,13 @@ namespace StarBank.Repositories
     {
         public void Create(Client client)
         {
-            if (client != null)
+            try
             {
                 Program.Users.Add(client);
                 Message.Text("Usuário salvo com sucesso!");
                 Program.LoggedUser = client.Id;
-                Menu.LoggedMenu();
-            } 
-            else
+            }
+            catch (Exception)
             {
                 Message.Text("O cliente a ser salvo não pode ser nulo. Tente novamente!");
                 Menu.InitialMenu();
@@ -28,30 +27,56 @@ namespace StarBank.Repositories
 
         public Client FindById(int id)
         {
-            return (Client) Program.Users.Where(user => user.Id == id).First();
+            try 
+            {
+                return (Client) Program.Users.Where(user => user.Id == id).First();
+            }
+            catch (Exception)
+            {
+                Message.Text("Houve um erro ao tentar buscar o cliente pelo id.");
+                Menu.LoggedMenu();
+                return null;
+            }
         }
 
         public Client FindByName(string name)
         {
-            if (name != null)
+            try
             {
                 return (Client) Program.Users.Find(x => x.Name == name);
             }
-            else
+            catch(Exception)
             {
-                Message.Text("O nome para a busca não pode ser nulo.");
+                Message.Text("Ouve um erro ao tentar buscar o usuário pelo nome.");
+                Menu.InitialMenu();
                 return null;
             }
         }
 
         public void AddBalance(ref Client client, double value)
         {
-            client.Balance += value;
+            try 
+            {
+                client.Balance += value;
+            }
+            catch(Exception)
+            {
+                Message.Text("Ouve um erro ao tentar fazer um deposito.");
+                return;
+            }
         }
 
         public void WithDraw(ref Client client, double value)
         {
-            client.Balance -= value;
+            try
+            {
+                client.Balance -= value;
+            }
+            catch(Exception)
+            {
+                Message.Text("Ouve um erro ao tentar fazer um saldo.");
+                return;
+            }
         }
     }
 }

@@ -31,16 +31,6 @@ namespace StarBank.Entities
             this.CreatedAt = DateTime.UtcNow;
         }
 
-        public void AddValue(decimal value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveValue(decimal value)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SeeTotalValue()
         {
             Message.Text($"O saldo total é de: {this.Balance:2F}!");

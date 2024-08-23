@@ -72,6 +72,8 @@ namespace StarBank.Services
             Client newClient = new Client(id, name, Convert.ToInt32(age), password);
 
             ClientRepository.Create(newClient);
+
+            Menu.LoggedMenu();
         }
 
         public Client FindById(int id)
