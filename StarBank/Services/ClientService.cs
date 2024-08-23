@@ -4,6 +4,7 @@ using StarBank.Repositories;
 using StarBank.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace StarBank.Services
             {
                 Message.Text("Qual o seu nome?");
                 name = Console.ReadLine();
-                if (!Verify(name, 1))
+                if (!VerifyIfIsString(name))
                 {
                     Message.Text("Resposta inválida, tente novamente.");
                     name = null;
@@ -40,20 +41,20 @@ namespace StarBank.Services
                     name = null;
                 }
             }
-            while (!Verify(name, 1) && !Program.Users.Any(user => user.Name == name));
+            while (!VerifyIfIsString(name) && !Program.Users.Any(user => user.Name == name));
 
             string? age;
             do
             {
                 Message.Text("Quantos anos você tem?");
                 age = Console.ReadLine();
-                if (!Verify(age, 2))
+                if (!VerifyIfIsANumber(age))
                 {
                     Message.Text("Resposta inválida, tente novamente!");
                     age = null;
                 }
             }
-            while (!Verify(age, 2));
+            while (!VerifyIfIsANumber(age));
 
             string? password;
             do
@@ -180,9 +181,22 @@ namespace StarBank.Services
             }
         }
 
-        private bool Verify(string input, int type)
+        private bool VerifyIfIsString(string input)
         {
-            return VerifyFieldType.VerifyType(input, type);
+            if (input != null && input.Length > 0)
+            {
+                return input.All(x => char.IsLetter(x) || !char.IsDigit(x));
+            }
+            return false;
+        }
+
+        private bool VerifyIfIsANumber(string input)
+        {
+            if (input != null && input.Length > 0)
+            {
+                return input.All(x => char.IsDigit(x) || !char.IsLetter(x));
+            }
+            return false;
         }
 
         private bool VerifyPassword(string password)
@@ -192,19 +206,7 @@ namespace StarBank.Services
 
         private int GetAvaliableId()
         {
-            if (Program.Users.Count == 0)
-            {
-                return 1;
-            }
-
-            List<int> ids = new();
-
-            foreach (var user in Program.Users)
-            {
-                ids.Add(user.Id);
-            }
-
-            return ids.Max() + 1;
+            return Program.Users.Any() ? Program.Users.Max(user => user.Id) + 1 : 1;
         }
     }
 }
