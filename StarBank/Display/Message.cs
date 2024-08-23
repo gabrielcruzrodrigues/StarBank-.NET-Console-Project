@@ -8,7 +8,7 @@ namespace StarBank.Display
 {
     public class Message
     {
-        public void Text(string message)
+        public static void Text(string message)
         {
             Console.WriteLine("-------------------------------------------------------");
             Console.WriteLine("Sistema: " + message);

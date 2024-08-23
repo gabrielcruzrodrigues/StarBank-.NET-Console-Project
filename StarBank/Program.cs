@@ -11,8 +11,7 @@ namespace StarBank
 
         static void Main(string[] args)
         {
-            Menu menu = new();
-            menu.InitialMenu();
+            Menu.InitialMenu();
         }
     }
 }

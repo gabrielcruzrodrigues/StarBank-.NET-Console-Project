@@ -10,16 +10,10 @@ namespace StarBank.Display
 {
     public class Menu
     {
-        public ClientService ClientService;
-        public Message Message;
-
         public Menu()
-        {
-            this.ClientService = new();
-            this.Message = new();
-        }
+        { }
 
-        public void InitialMenu()
+        public static void InitialMenu()
         {
 
             string initialMenu = @"
@@ -43,34 +37,35 @@ namespace StarBank.Display
 
             if (option != "1" && option != "2" && option != "3")
             {
-                this.Message.Text("Opção invalida, tente novamente!");
+                Message.Text("Opção invalida, tente novamente!");
                 option = null;
-                this.InitialMenu();
+                InitialMenu();
             }
 
             int selected = Convert.ToInt32(option);
 
+            ClientService clientService = new();
             switch (selected)
             {
                 case 1:
-                    this.ClientService.CreateClient();
+                    clientService.CreateClient();
                     break;
                 case 2:
                     //this.Client.Login();
                     break;
                 case 3:
-                    this.Message.Text("Saindo do Star Bank, até a próxima!");
+                    Message.Text("Saindo do Star Bank, até a próxima!");
                     Environment.Exit(0);
                     break;
                 default:
-                    this.Message.Text("Aconteceu um erro interno...");
+                    Message.Text("Aconteceu um erro interno...");
                     break;
             }
         }
 
-        public void LoggedMenu()
+        public static void LoggedMenu()
         { 
-            string LoggedMenu = @"
+            string LoggedMenuText = @"
 ****************************************************
 *                    Star Bank                     *        
 *          No que podemos te ajudar hoje?          *                 
@@ -87,43 +82,43 @@ namespace StarBank.Display
 ****************************************************
             ";
 
-            Console.WriteLine(LoggedMenu);
+            Console.WriteLine(LoggedMenuText);
             var option = Console.ReadLine();
 
             List<string> options = [ "1", "2", "3", "4", "5", "6" ];
 
             if (!options.Contains(option))
             {
-                this.Message.Text("Opção invalida, tente novamente!");
+                Message.Text("Opção invalida, tente novamente!");
                 option = null;
-                this.LoggedMenu();
+                LoggedMenu();
             }
             int selected = Convert.ToInt32(option);
             int idLoggedUser = Program.LoggedUser;
 
+            ClientService clientService = new();
             switch (selected)
             {
                 case 1:
-                    this.ClientService.SeeTotalValue(idLoggedUser);
+                    clientService.SeeTotalValue(idLoggedUser);
                     break;
                 case 2:
-                    this.ClientService.Deposit(idLoggedUser);
+                    clientService.Deposit(idLoggedUser);
                     break;
                 case 3:
                     break;
                 case 4:
-                    this.ClientService.SeeAllLimit(idLoggedUser);
+                    clientService.SeeAllLimit(idLoggedUser);
                     break;
                 case 5:
                     break;
                 case 6:
                     Program.LoggedUser = 0;
-                    this.Message.Text("Deslogando da sua conta, volte sempre!");
-                    Menu menu = new();
-                    menu.InitialMenu();
+                    Message.Text("Deslogando da sua conta, volte sempre!");
+                    InitialMenu();
                     break;
                 default:
-                    this.Message.Text("Aconteceu um erro interno...");
+                    Message.Text("Aconteceu um erro interno...");
                     break;
             }
         }

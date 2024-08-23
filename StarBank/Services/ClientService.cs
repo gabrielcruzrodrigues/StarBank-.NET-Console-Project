@@ -12,7 +12,6 @@ namespace StarBank.Services
 {
     public class ClientService
     {
-        public Message Message = new Message();
         public VerifyFieldType VerifyFieldType = new VerifyFieldType();
         public ClientRepository ClientRepository;
         public ClientService()
@@ -22,59 +21,57 @@ namespace StarBank.Services
 
         public void CreateClient()
         {
-            this.Message.Text("Preencha os campos abaixo para criar a sua conta!");
-
-            Menu menu = new Menu();
+            Message.Text("Preencha os campos abaixo para criar a sua conta!");
 
             string? name;
             do
             {
-                this.Message.Text("Qual o seu nome?");
+                Message.Text("Qual o seu nome?");
                 name = Console.ReadLine();
                 if (!Verify(name, 1))
                 {
-                    this.Message.Text("Resposta inválida, tente novamente.");
+                    Message.Text("Resposta inválida, tente novamente.");
                     name = null;
                 }
 
                 if (Program.Users.Any(user => user.Name == name))
                 {
-                    this.Message.Text("O nome de usuário já existe, tente novamente!");
+                    Message.Text("O nome de usuário já existe, tente novamente!");
                     name = null;
                 }
             }
-            while (!this.Verify(name, 1) && !Program.Users.Any(user => user.Name == name));
+            while (!Verify(name, 1) && !Program.Users.Any(user => user.Name == name));
 
             string? age;
             do
             {
-                this.Message.Text("Quantos anos você tem?");
+                Message.Text("Quantos anos você tem?");
                 age = Console.ReadLine();
-                if (!this.Verify(age, 2))
+                if (!Verify(age, 2))
                 {
-                    this.Message.Text("Resposta inválida, tente novamente!");
+                    Message.Text("Resposta inválida, tente novamente!");
                     age = null;
                 }
             }
-            while (!this.Verify(age, 2));
+            while (!Verify(age, 2));
 
             string? password;
             do
             {
-                this.Message.Text("Crie uma senha para acessar a sua conta.");
+                Message.Text("Crie uma senha para acessar a sua conta.");
                 password = Console.ReadLine();
-                if (!this.VerifyPassword(password))
+                if (!VerifyPassword(password))
                 {
-                    this.Message.Text("Sua senha não pode ser nula ou menor que 5 caracteres. Tente novamente!");
+                    Message.Text("Sua senha não pode ser nula ou menor que 5 caracteres. Tente novamente!");
                     password = null;
                 }
             }
-            while (!this.VerifyPassword(password));
+            while (!VerifyPassword(password));
 
-            int id = this.GetAvaliableId();
+            int id = GetAvaliableId();
             Client newClient = new Client(id, name, Convert.ToInt32(age), password);
 
-            this.ClientRepository.Create(newClient);
+            ClientRepository.Create(newClient);
         }
 
         public Client findById(int id)
@@ -82,10 +79,8 @@ namespace StarBank.Services
             Client client = (Client) Program.Users.Where(user => user.Id == id).First();
             if (client == null)
             {
-                Menu menu = new();
-                Message message = new();
-                message.Text("Ocorreu um erro ao buscar o usuário por Id.");
-                menu.LoggedMenu();
+                Message.Text("Ocorreu um erro ao buscar o usuário por Id.");
+                Menu.LoggedMenu();
                 return null;
             } 
             else
@@ -96,33 +91,30 @@ namespace StarBank.Services
 
         public void SeeTotalValue(int id)
         {
-            Client client = this.findById(id);
-            this.Message.Text($"Seu saldo é de: {client.Balance}!");
-            Menu menu = new();
-            menu.LoggedMenu();
+            Client client = findById(id);
+            Message.Text($"Seu saldo é de: {client.Balance}!");
+            Menu.LoggedMenu();
         }
 
         public void Deposit(int id)
         {
             Client client = this.findById(id);
 
-            this.Message.Text("Quanto você gostaria de depositar?");
+            Message.Text("Quanto você gostaria de depositar?");
             decimal value = Convert.ToDecimal(Console.ReadLine());
 
             client.Balance += value;
 
-            this.Message.Text($"Seu saldo é de: {client.Balance}!");
+            Message.Text($"Seu saldo é de: {client.Balance}!");
 
-            Menu menu = new();
-            menu.LoggedMenu();
+            Menu.LoggedMenu();
         }
 
         public void SeeAllLimit(int id)
         {
             Client client = this.findById(id);
-            this.Message.Text($"O seu limite é de: {client.CreditLimit}!");
-            Menu menu = new();
-            menu.LoggedMenu();
+            Message.Text($"O seu limite é de: {client.CreditLimit}!");
+            Menu.LoggedMenu();
         }
 
         private bool Verify(string input, int type)

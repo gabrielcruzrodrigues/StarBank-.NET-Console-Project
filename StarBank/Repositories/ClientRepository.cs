@@ -10,21 +10,18 @@ namespace StarBank.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        Message Message = new();
         public void Create(Client client)
         {
             if (client != null)
             {
                 Program.Users.Add(client);
-                this.Message.Text("Usuário salvo com sucesso!");
+                Message.Text("Usuário salvo com sucesso!");
                 Program.LoggedUser = client.Id;
-                Menu menu = new();
-                menu.LoggedMenu();
+                Menu.LoggedMenu();
             } 
             else
             {
-                Menu Menu = new();
-                this.Message.Text("O cliente a ser salvo não pode ser nulo. Tente novamente!");
+                Message.Text("O cliente a ser salvo não pode ser nulo. Tente novamente!");
                 Menu.InitialMenu();
             }
         }
