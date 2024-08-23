@@ -10,6 +10,5 @@ namespace StarBank.Repositories
     public interface IClientRepository
     {
         public void Create(Client client);
-        public void Update(Client client);
     }
 }

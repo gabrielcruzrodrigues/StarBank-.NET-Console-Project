@@ -76,7 +76,7 @@ namespace StarBank.Services
 
         public Client FindById(int id)
         {
-            Client client = (Client) Program.Users.Where(user => user.Id == id).First();
+            Client client = ClientRepository.FindById(id);
             if (client == null)
             {
                 Message.Text("O usuário não existe.");
@@ -91,11 +91,11 @@ namespace StarBank.Services
 
         public Client FindByName(string name)
         {
-            Client client = (Client) Program.Users.Find(x => x.Name == name);
+            Client client = ClientRepository.FindByName(name);
             if (client == null)
             {
                 Message.Text("O usuário não existe, tente novamente!");
-                Menu.LoggedMenu();
+                Menu.InitialMenu();
                 return null;
             } 
             else
@@ -118,7 +118,7 @@ namespace StarBank.Services
             Message.Text("Quanto você gostaria de depositar?");
             double value = Convert.ToDouble(Console.ReadLine());
 
-            client.Balance += value;
+            ClientRepository.AddBalance(ref client, value);
 
             Message.Text($"Seu saldo é de: R${client.Balance:F2}!");
 
@@ -133,7 +133,7 @@ namespace StarBank.Services
             var value = Convert.ToDouble(Console.ReadLine());
             if (value <= client.Balance)
             {
-                client.Balance -= value;
+                ClientRepository.WithDraw(ref client, value);
                 Message.Text($"Você sacou R${value:F2}, agora você tem R${client.Balance:F2} em sua conta!");
             }
             else {
@@ -180,7 +180,7 @@ namespace StarBank.Services
 
         private bool Verify(string input, int type)
         {
-            return this.VerifyFieldType.VerifyType(input, type);
+            return VerifyFieldType.VerifyType(input, type);
         }
 
         private bool VerifyPassword(string password)

@@ -26,9 +26,32 @@ namespace StarBank.Repositories
             }
         }
 
-        public void Update(Client client)
+        public Client FindById(int id)
         {
-            throw new NotImplementedException();
+            return (Client) Program.Users.Where(user => user.Id == id).First();
+        }
+
+        public Client FindByName(string name)
+        {
+            if (name != null)
+            {
+                return (Client) Program.Users.Find(x => x.Name == name);
+            }
+            else
+            {
+                Message.Text("O nome para a busca não pode ser nulo.");
+                return null;
+            }
+        }
+
+        public void AddBalance(ref Client client, double value)
+        {
+            client.Balance += value;
+        }
+
+        public void WithDraw(ref Client client, double value)
+        {
+            client.Balance -= value;
         }
     }
 }
