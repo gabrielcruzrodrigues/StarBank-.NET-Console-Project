@@ -29,7 +29,7 @@ namespace StarBank.Repositories
         {
             try 
             {
-                return (Client) Program.Users.Where(user => user.Id == id).First();
+                return (Client) Program.Users.Find(user => user.Id == id);
             }
             catch (Exception)
             {
