@@ -1,7 +1,6 @@
 ﻿using StarBank.Display;
 using StarBank.Entities;
 using StarBank.Repositories;
-using StarBank.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +12,6 @@ namespace StarBank.Services
 {
     public class ClientService
     {
-        public VerifyFieldType VerifyFieldType = new VerifyFieldType();
         public ClientRepository ClientRepository;
         public ClientService()
         {
@@ -43,18 +41,23 @@ namespace StarBank.Services
             }
             while (!VerifyIfIsString(name) && !Program.Users.Any(user => user.Name == name));
 
-            string? age;
-            do
+            int? age = null;
+            do 
             {
                 Message.Text("Quantos anos você tem?");
-                age = Console.ReadLine();
-                if (!VerifyIfIsANumber(age))
+                string? input = Console.ReadLine();
+
+                if (int.TryParse(input, out int result))
+                {
+                    age = result;
+                    VerifyAge(result);
+                }
+                else 
                 {
                     Message.Text("Resposta inválida, tente novamente!");
-                    age = null;
                 }
             }
-            while (!VerifyIfIsANumber(age));
+            while (age == null);
 
             string? password;
             do
@@ -137,7 +140,7 @@ namespace StarBank.Services
             if (value <= client.Balance)
             {
                 ClientRepository.WithDraw(ref client, value);
-                Message.Text($"Você sacou R${value:F2}, agora você tem R${client.Balance:F2} em sua conta!");
+                Message.Text($"Você sacou R${value:F2} - Agora você tem R${client.Balance:F2} em sua conta!");
             }
             else {
                 Message.Text($"Você tem apenas R${client.Balance:F2} em sua conta, tente outro valor!");
@@ -150,12 +153,12 @@ namespace StarBank.Services
             Message.Text("Digite o nome da sua conta:");
             string? name = Console.ReadLine();
 
-            if (name == null || !VerifyFieldType.VerifyType(name, 1)) {
+            if (name == null || name.Length == 0 || !VerifyIfIsString(name)) {
                 Message.Text("Nome inválido, tente novamente!");
                 Menu.InitialMenu();
                 return;
             }
-            
+
             Client client = FindByName(name);
 
             Message.Text("Digite a sua senha:");
@@ -197,6 +200,16 @@ namespace StarBank.Services
                 return input.All(x => char.IsDigit(x) || !char.IsLetter(x));
             }
             return false;
+        }
+
+        private void VerifyAge(int age)
+        {   
+            if (age < 18)
+            {
+                Message.Text("Menores de idade não podem abrir conta neste banco.");
+                Menu.InitialMenu();
+                return;
+            }
         }
 
         private bool VerifyPassword(string password)
