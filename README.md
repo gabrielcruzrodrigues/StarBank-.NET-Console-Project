@@ -8,6 +8,10 @@ O StarBank é um sistema bancário simples desenvolvido em C#. Ele permite que o
 </div>
 
 ## Como rodar o projeto
+* Tenha o Runtime do .NET 8.0 instalado na sua maquina.
+```
+https://dotnet.microsoft.com/pt-br/download/dotnet/8.0
+```
 * Clone o repositório na sua máquina local:
 ```
 git clone https://github.com/gabrielcruzrodrigues/StarBank-.NET-Console-Project.git
